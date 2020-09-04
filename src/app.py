@@ -8,10 +8,8 @@ global todos
 todos = [{ "label": "My first task", "done": False }]
 
 @app.route('/todos', methods=['GET'])
+def get_todo():
 
-def hello_world():
-
-    #json_text = jsonify(todos)
     return jsonify(todos)
 
 @app.route('/todos', methods=['POST'])
@@ -22,6 +20,27 @@ def add_new_todo():
     todos.append(decoded_object)
     print(todos)
     return jsonify(todos)
+
+@app.route('/todos/<int:position>', methods=['PUT'])
+def udpate_todo(position):
+    print(position)
+    print(len(todos))
+    if len(todos) == 0:
+        msj = "La lista esta vacia agregue una opcion para poder modificar"
+        return jsonify(msj)
+
+    elif len(todos) >= position:
+        request_body = request.data
+        decoded_object = json.loads(request_body)
+        #todos(decoded_object)
+        todos[position]=decoded_object
+        msj = f"Thi is the position to delete:{position}, quedan en las lista: {todos}"
+        print("This is the position to delete: ",position)
+        return jsonify(todos[position])
+    else:
+        msj = " el valor a modificar no existe intente nuevamente"
+        return jsonify(msj)
+
 
 @app.route('/todos/<int:position>', methods=['DELETE'])
 def delete_todo(position):
