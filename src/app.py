@@ -21,7 +21,7 @@ def add_new_todo():
     print(todos)
     return jsonify(todos)
 
-@app.route('/todos/' , methods=['PUT'])
+@app.route('/todos/' or '/todos' , methods=['PUT'])
 def put_todo():
     msj = "Ingrese un valor para modificar"
     return jsonify(msj)    
